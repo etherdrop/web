@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" 
+			integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+			integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+	<link rel="stylesheet" href="css/style.css" >
+    <link rel="stylesheet" href="css/snackbar.css" > 
+
+    <title>Etherdrop</title>
+
+  </head>
+
+  <body>
+  
+	<audio id="coin-sound">
+		<source src="sounds/coins.mp3" type="audio/mpeg">
+	</audio>
+
+
+	<div id="snackbar" ></div>
+
+	<div class="m-background"></div>
+	
+	<div id="price-ticker" data-duplicated="true"  data-duration="40000" class="marquee text-danger bg-white"></div>
+
+	<div class="container">
+
+		<nav aria-label="breadcrumb">
+				<ol class="breadcrumb bg-white" style="margin:32px 0 0 0">
+					<li class="breadcrumb-item"><i class="fab fa-fw fa-ethereum"></i><b>Wallet</b></li>
+					<li id="wallet-address" class="breadcrumb-item active" aria-current="page"></li>
+				</ol>
+		</nav>		
+
+		<div class="row">
+
+			<div class="col-12 col-lg">
+				<div class="jumbotron text-info bg-white shadow">
+					<h2 class="text-primary">
+						<img src="icons/etherdrop.png" style="width:64px;padding-bottom:8px"> 
+						Etherdrop
+						
+					</h2>
+					
+					<p class="lead">
+						<strong>Ethereum Smart Lottery</strong><br><small>Join The Ride, More To Come</small>					
+					</p>
+					
+					<hr>
+					<div id="block_hash" style="width:150px;margin: 0 0 16px 0" ></div>
+					<a class="btn btn-primary" style="margin-left:calc(100%-10px)" href="javascript:void(0)" role="button" data-toggle="modal" data-target="#helpModal">
+						How It Works <i class="far fa-lightbulb"></i> 
+					</a>
+					
+					<a href="old"  class="btn btn-info float-right" data-toggle="tooltip" data-placement="bottom" title="First Release, Long Queue, Big Drop, 18 ETH Reward">
+						Old Version <i class="fas fa-external-link-alt"></i>
+					</a>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg">
+				<div class="card shadow">
+				
+				  <div class="card-header text-primary">
+					<strong>Current Drop </strong> <strong class="float-right"><span id="round-progress" >?</span> <i class="fas fa-fw fa-users"></i></strong>
+				  </div>
+				  
+				  <div class="card-body text-info">
+				  
+					<p>
+						<i class="fas fa-fw fa-sort-amount-up"></i> <strong>Round Number </strong><strong id="round-number" class="float-right">?</strong>
+						<br>  
+						<i class="fas fa-fw fa-trophy"></i> <strong>Winner Profit</strong><strong id="round-profit" class="float-right">?</strong>
+						<br>
+						<i class="fab fa-fw fa-ethereum"></i> <strong>Jackpot </strong><strong class="float-right"><span class="round-jackpot">?</span></strong>
+					</p>
+					
+					<div id="banner" style="text-align:center">
+						<svg id="droplet"
+							 version="1.1" xmlns="http://www.w3.org/2000/svg"
+							 xml:space="default">
+							<defs>
+								<clipPath id="drop">
+									<path d="M72.0090545654297 10.394125366210943c0 0-46.8 53.175000000000004-46.8 93.525 0 24.224999999999998 21 43.8 46.8 43.8s46.8-19.65 46.8-43.8C118.88405456542966 63.569125366210926 72.08405456542968 10.394125366210943 72.0090545654297 10.394125366210943z">
+									</path>
+								</clipPath>
+							</defs>
+							<g clip-path="url(#drop)" transform="scale(1), translate(75,0)">
+								<g class="fill">
+									<path id="waveShape"
+										  d="M300,300V2.5c0,0-0.6-0.1-1.1-0.1c0,0-25.5-2.3-40.5-2.4c-15,0-40.6,2.4-40.6,2.4 c-12.3,1.1-30.3,1.8-31.9,1.9c-2-0.1-19.7-0.8-32-1.9c0,0-25.8-2.3-40.8-2.4c-15,0-40.8,2.4-40.8,2.4c-12.3,1.1-30.4,1.8-32,1.9 c-2-0.1-20-0.8-32.2-1.9c0,0-3.1-0.3-8.1-0.7V300H300z">
+									</path>
+								</g>
+							</g>
+							<g transform="scale(0.75), translate(129,6)">
+								<path class="droplet-stroke"
+									  d="M68.2,6.7c0,0-62.4,70.9-62.4,124.7c0,32.3,28,58.4,62.4,58.4s62.4-26.2,62.4-58.4 C130.7,77.6,68.3,6.7,68.2,6.7z">
+								</path>
+							</g>
+						</svg>
+					</div>
+
+					<div style="position:absolute;bottom:12px;width:90%" class="text-warning">
+						<small class="float-left"> <i class="far fa-spin fa-fw fa-clock"></i> <small><b>Tired Of Waiting ?</b></small> </small> 	
+						<small class="float-right"> 
+							<b>
+								<a class="text-warning" href="javascript:void(0)" role="button" data-toggle="modal" data-target="#modalShare">
+									<i class="fas fa-fw fa-bullhorn"></i> Tell My Friends
+								</a>
+							</b>
+						</small> 
+					</div>
+					
+				  </div>
+				</div>
+			</div> 
+		
+		</div>
+
+		<div class="row">
+
+			<div class="col-12 col-lg">
+				<div class="card shadow">
+				  <div class="card-header text-primary">  
+					<strong>Price Pool <span class="round-jackpot">?</span> ETH</strong> <i class="fas fa-parachute-box float-right"></i>			 
+				 </div>
+				  <div class="card-body text-center">				  
+					<div class="row">
+						<div class="col-12">
+							<a id="btn-transact" href="javascript:EtherDrop.transact()" class="btn btn-sm btn-success">
+								<b>Participate <span id="round-price">?</span> ETH</b>
+							</a>
+						</div>
+						<div class="col-12">
+							<small>Or Use Payment Barcode</small>
+						</div>
+					</div>
+					
+					<div id="qrcode" class="text-center"></div>						
+					<br>
+					<input style="width:90%;height:32px" onclick="presenter.copyBarcode()" class="btn" readonly id="contract-address" />
+				  </div>
+				  <div class="card-footer text-muted">
+					<i class="fas fa-exclamation-triangle"></i> <strong>Only 1</strong> Participation Per Round
+				  </div>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg">
+				<div class="card shadow">
+				  <div class="card-header text-primary">
+					<strong>Activity</strong><i class="fas fa-fw fa-star float-right"></i>
+				  </div>
+				  <div class="card-body">
+					
+					<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+					  <li class="nav-item">
+						<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i class="fas fa-fw fa-spin fa-spinner"></i> Txns</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><i class="fas fa-history"></i> Wins</a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="fas fa-fingerprint"></i> Me</a>
+					  </li>
+					</ul>
+					<div class="tab-content" id="pills-tabContent">
+					  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+						<div id="list-round-subs" class="list-group col"></div>
+					  </div>
+					  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+						<div id="list-round-results" class="list-group col"></div>
+					  </div>
+					  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+						<div id="list-round-mine" class="list-group col"></div>
+					  </div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	
+		</div>
+		
+	</div>
+
+	<div class="modal fade text-info" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title text-primary" id="helpModalTitle"><i class="fas fa-fw fa-info-circle"></i> About </h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body">
+
+			<div class="accordion" id="accordionHelp">
+			  <div class="card">
+				<div class="card-header list-group-item-action text-primary btn" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					<i class="fab fa-fw fa-ethereum"></i> <strong>What is EtherDrop</strong>
+				</div>
+				<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionHelp">
+				  <div class="card-body">
+					<b>EtherDrop</b> is an Ethereum giveaway lottery where you enter a lottery draw giving you a chance to win up a big buff of Ethereum.
+				  </div>
+				</div>
+			  </div>
+			  
+			  <div class="card">
+				<div class="card-header list-group-item-action text-primary btn" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+					  <i class="fas fa-fw fa-dice"></i> <strong>How Can I Play</strong>
+				</div>
+				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionHelp">
+				  <div class="card-body">
+					<span>
+						<i class="fab fa-fw fa-ethereum"></i> Participate by sending the round ETH amount<br><br>
+						<i class="fas fa-fw fa-tint"></i> Wait for the ether drop to fill up <br><br>
+						<i class="fas fa-fw fa-scroll"></i> The SmartContract will pick a random number<br><br>
+                        <i class="fas fa-fw fa-trophy"></i> If Your Participation Number matches you <b>WIN</b><br>
+					</span>
+				  </div>
+				</div>
+			  </div>
+
+			  <div class="card">
+				<div class="card-header list-group-item-action text-primary btn" id="headingThree"  data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+					<i class="fas fa-fw fa-award"></i> <strong>The Results</strong>
+				</div>
+				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionHelp">
+				  <div class="card-body">
+						<span>
+                            <i class="far fa-dot-circle"></i> EtherDrop SmartContract is build on <b>Top Of The Ethereum</b> 
+							blockchain, ensuring and enforcing that the pick calculation is legitimate and random. 
+							<br> 
+							<br> 
+							<i class="far fa-dot-circle"></i> Smart contracts allow the performance of credible transactions without 3rd parties intervention.
+                            <br>  
+							<br>
+							<i class="far fa-dot-circle"></i> Randomness calculation is derived from the locked future upcoming block hashes.
+                            <br> 
+							<br>
+                            <i class="fas fa-fw fa-scroll"></i> You can check etherdrop smart contract on the blockchain by following this link
+                            <a href="https://etherscan.io/address/0x81b1ff50d5bca9150700e7265f7216e65c8936e6#code"><b>Click here</b>.</a>
+						</span>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">
+					<a  class="text-white" target="_blank" href="https://etherscan.io/address/0x81b1ff50d5bca9150700e7265f7216e65c8936e6#code"><b>Smart Contract <i class="fab fa-fw fa-ethereum"></i></b></a>
+				</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="modal fade text-info" id="web3Modal" tabindex="-1" role="dialog" aria-labelledby="web3ModalTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title text-primary" id="web3ModalTitle"><i class="fas fa-fw fa-exclamation-circle"></i> Missing Account </h5>
+			 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			 </button>
+		  </div>
+		  <div class="modal-body">
+			  Please Make Sure:
+			  <br>
+			  <br>
+			  <b>1.</b> Your wallet is <b>enabled</b>
+			  <br>	
+			  <br>
+			  <b>2.</b> Your Browser should support <b>Web3</b>
+			  <br>
+			  <br>
+			  You can Install Metamask Plugin
+		   </div>
+		   <div class="modal-footer">
+				<button type="button" onclick="javascript:window.location.href='.'" class="btn btn-success">
+				<b>Refresh</b> <i class="fas fa-redo"></i>
+				</button>
+				<button type="button" class="btn btn-primary">
+					<a  class="text-white" target="_blank" href="https://metamask.io/"><b>Check MetaMask <i class="fas fa-external-link-alt"></i></b></a>
+				</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="modal fade text-info" id="modalShare" tabindex="-1" role="dialog" aria-labelledby="modalShareTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h6 class="modal-title text-primary" id="modalShareTitle"><i class="fas fa-fw fa-share"></i> <b><i>Loved It? Share It!</i></b> </h6>
+		  </div>
+		  <div class="modal-body text-center">
+				<a href="whatsapp://send?text=Check Out http://etherdrop.app and get your ETH drop!"
+				   data-action="share/whatsapp/share" class="btn">
+					<i class="fab fa-whatsapp"></i>
+				</a>
+				<a href="http://www.facebook.com/sharer/sharer.php?u=https://etherdrop.app"
+				   target="_blank" class="btn">
+					<i class="fab fa-facebook"></i>
+				</a>
+				<a href="http://twitter.com/share?url=https://etherdrop.app&text=Get Your ETH Drop!&via=EtherDrop"
+				   target="_blank"
+				   class="btn">
+					<i class="fab fa-twitter"></i>
+				</a>
+				<a href="mailto:?subject=Support&body=support@etherdrop.app" target="_blank" class="btn email">
+					<i class="fas fa-envelope"></i>
+				</a>	 
+			</div>
+		  </div>
+		</div>
+	</div>
+	
+	<br>
+	
+	<script id="chatBroEmbedCode">
+	function ChatbroLoader(chats,async){async=!1!==async;var params={embedChatsParameters:chats instanceof Array?chats:[chats],lang:navigator.language||navigator.userLanguage,needLoadCode:'undefined'==typeof Chatbro,embedParamsVersion:localStorage.embedParamsVersion,chatbroScriptVersion:localStorage.chatbroScriptVersion},xhr=new XMLHttpRequest;xhr.withCredentials=!0,xhr.onload=function(){eval(xhr.responseText)},xhr.onerror=function(){console.error('Chatbro loading error')},xhr.open('GET','//www.chatbro.com/embed.js?'+btoa(unescape(encodeURIComponent(JSON.stringify(params)))),async),xhr.send()}
+	ChatbroLoader({encodedChatId: '22jHw'});
+	</script>
+
+	
+	<footer class="footer bg-white sticky shadow" style="height:38px">
+		<div> 
+			<a style="vertical-align: middle" class="btn text-info float-left"
+			   target="_blank"
+			   href="https://etherscan.io/address/0x81b1ff50d5bca9150700e7265f7216e65c8936e6#code">
+				<i class="fas fa-fw fa-tint"></i>
+				<i class="fab fa-fw fa-ethereum"></i>
+				<i class="fas fa-fw fa-dice"></i>
+			</a>
+		</div>
+	</footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" 
+			integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" 
+				integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+				integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	
+	<script src="//cdn.jsdelivr.net/jquery.marquee/1.4.0/jquery.marquee.min.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/jquerykeyframes@1.0.5/dist/jquery.keyframes.min.js"></script>
+	<script src="//cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+	
+	<script src="js/qrcode.min.js"></script>
+
+	<script src="js/etherdrop.js"></script>
+	<script src="js/presenter.js"></script>
+	<script src="js/app.js"></script>
+	
+	<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
+  </body>
+</html>

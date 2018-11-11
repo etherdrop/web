@@ -1,0 +1,29 @@
+{
+  "name": "etherdrop",
+  "version": "1.0.0",
+  "description": "smart contract ether drop lottery",
+  "main": "index.js",
+  "engines": {
+    "node": "8.9.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "node index.js"
+  },
+  "author": "fady aro",
+  "license": "ISC",
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "ws": "^6.0.0"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  }
+}

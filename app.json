@@ -1,0 +1,8 @@
+{
+  "name": "XDNS",
+  "description": "Decentralized Domain Name Service",
+  "repository": "https://github.com/nnmix/x-dns",
+  "logo": "https://raw.githubusercontent.com/nnmix/x-dns/master/public/icons/pulsar.gif",
+  "keywords": ["node", "express", "heroku"],
+  "image": "heroku/nodejs"
+}
