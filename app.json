@@ -1,8 +1,8 @@
 {
-  "name": "XDNS",
-  "description": "Decentralized Domain Name Service",
-  "repository": "https://github.com/nnmix/x-dns",
-  "logo": "https://raw.githubusercontent.com/nnmix/x-dns/master/public/icons/pulsar.gif",
-  "keywords": ["node", "express", "heroku"],
+  "name": "etherdrop",
+  "description": "Ethereum - Smart Contract Lottery and Gambling",
+  "repository": "https://github.com/etherdrop/web",
+  "logo": "https://raw.githubusercontent.com/etherdrop/web/master/public/icons/etherdrop.png",
+  "keywords": ["etherdrop", "ethereum", "gambling", "smart-contract", "solidity", "lottery", "blockchain", "node", "express", "heroku"],
   "image": "heroku/nodejs"
 }
