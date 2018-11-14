@@ -3,11 +3,11 @@
  */
 const EtherDrop = {
 	
-	abi : [{"anonymous": false,"inputs": [{"indexed": true,"name": "previousOwner","type": "address"},{"indexed": true,"name": "newOwner","type": "address"}],"name": "OwnershipTransferred","type": "event"},{"constant": false,"inputs": [],"name": "pause","outputs": [],"payable": false,"stateMutability": "nonpayable","type": "function"},{"constant": false,"inputs": [],"name": "support","outputs": [],"payable": false,"stateMutability": "nonpayable","type": "function"},{"anonymous": false,"inputs": [],"name": "Pause","type": "event"},{"constant": false,"inputs": [{"name": "newOwner","type": "address"}],"name": "transferOwnership","outputs": [],"payable": false,"stateMutability": "nonpayable","type": "function"},{"anonymous": false,"inputs": [{"indexed": true,"name": "addr","type": "address"},{"indexed": true,"name": "round","type": "uint256"},{"indexed": false,"name": "place","type": "uint256"},{"indexed": false,"name": "price","type": "uint256"}],"name": "NewDropOut","type": "event"},{"anonymous": false,"inputs": [{"indexed": true,"name": "addr","type": "address"},{"indexed": true,"name": "round","type": "uint256"},{"indexed": false,"name": "place","type": "uint256"}],"name": "NewSubscriber","type": "event"},{"anonymous": false,"inputs": [],"name": "Unpause","type": "event"},{"constant": false,"inputs": [],"name": "unpause","outputs": [],"payable": false,"stateMutability": "nonpayable","type": "function"},{"payable": true,"stateMutability": "payable","type": "fallback"},{"inputs": [],"payable": false,"stateMutability": "nonpayable","type": "constructor"},{"constant": true,"inputs": [],"name": "owner","outputs": [{"name": "","type": "address"}],"payable": false,"stateMutability": "view","type": "function"},{"constant": true,"inputs": [],"name": "paused","outputs": [{"name": "","type": "bool"}],"payable": false,"stateMutability": "view","type": "function"},{"constant": true,"inputs": [],"name": "stat","outputs": [{"name": "round","type": "uint256"},{"name": "position","type": "uint256"},{"name": "max","type": "uint256"},{"name": "price","type": "uint256"},{"name": "blok","type": "uint256"}],"payable": false,"stateMutability": "view","type": "function"},{"constant": true,"inputs": [{"name": "user","type": "address"}],"name": "userRound","outputs": [{"name": "lastRound","type": "uint256"},{"name": "currentRound","type": "uint256"}],"payable": false,"stateMutability": "view","type": "function"}],
+	abi : [{"anonymous": false,"inputs": [{"indexed": true,"name": "previousOwner","type": "address"},{"indexed": true,"name": "newOwner","type": "address"}],"name": "OwnershipTransferred","type": "event"},{"constant": false,"inputs": [],"name": "pause","outputs": [],"payable": false,"stateMutability": "nonpayable","type": "function"},{"constant": false,"inputs": [],"name": "support","outputs": [],"payable": false,"stateMutability": "nonpayable","type": "function"},{"anonymous": false,"inputs": [],"name": "Pause","type": "event"},{"constant": false,"inputs": [{"name": "newOwner","type": "address"}],"name": "transferOwnership","outputs": [],"payable": false,"stateMutability": "nonpayable","type": "function"},{"anonymous": false,"inputs": [{"indexed": true,"name": "addr","type": "address"},{"indexed": true,"name": "round","type": "uint256"},{"indexed": false,"name": "place","type": "uint256"},{"indexed": false,"name": "price","type": "uint256"}],"name": "NewDropOut","type": "event"},{"anonymous": false,"inputs": [{"indexed": true,"name": "addr","type": "address"},{"indexed": true,"name": "round","type": "uint256"},{"indexed": false,"name": "place","type": "uint256"}],"name": "NewSubscriber","type": "event"},{"anonymous": false,"inputs": [],"name": "Unpause","type": "event"},{"constant": false,"inputs": [],"name": "unpause","outputs": [],"payable": false,"stateMutability": "nonpayable","type": "function"},{"payable": true,"stateMutability": "payable","type": "fallback"},{"inputs": [{"name": "order","type": "uint256"},{"name": "price","type": "uint256"}],"payable": false,"stateMutability": "nonpayable","type": "constructor"},{"constant": true,"inputs": [],"name": "owner","outputs": [{"name": "","type": "address"}],"payable": false,"stateMutability": "view","type": "function"},{"constant": true,"inputs": [],"name": "paused","outputs": [{"name": "","type": "bool"}],"payable": false,"stateMutability": "view","type": "function"},{"constant": true,"inputs": [],"name": "stat","outputs": [{"name": "round","type": "uint256"},{"name": "position","type": "uint256"},{"name": "max","type": "uint256"},{"name": "price","type": "uint256"},{"name": "blok","type": "uint256"},{"name": "lock","type": "uint256"}],"payable": false,"stateMutability": "view","type": "function"},{"constant": true,"inputs": [{"name": "user","type": "address"}],"name": "userRound","outputs": [{"name": "lastRound","type": "uint256"},{"name": "currentRound","type": "uint256"}],"payable": false,"stateMutability": "view","type": "function"}],
 
-	address : '0x5c444784f4f0354e16fc2382864bf12977bf848e',
+	address : '0x5a01795212695629e3cc71521363e57ca537d41e',
 	
-	infura : 'https://ropsten.infura.io/plnAtKGtcoxBtY9UpS4b',
+	infura : 'https://mainnet.infura.io/plnAtKGtcoxBtY9UpS4b ',
 	
 	init : () => {
 		
@@ -22,7 +22,7 @@ const EtherDrop = {
 			});
 		} else {
 			console.log('using http provider web3');
-			web3 = new Web3(new Web3.providers.HttpProvider(EtherDrop.provider));
+			web3 = new Web3(new Web3.providers.HttpProvider(EtherDrop.infura));
 		}
 		
 		EtherDrop.instance = web3.eth.contract(EtherDrop.abi).at(EtherDrop.address);
@@ -47,54 +47,32 @@ const EtherDrop = {
 
 	getUser: async () => {
 		return new Promise((resolve, reject) => { 
-			web3.eth.getAccounts((e, d)=> resolve(d));
-		});
-	},
-	
-	transact: async (address) => {
-		return new Promise((resolve, reject) => {
-			let params = { from: address, value: EtherDrop.price };
-			let resolution = (err, res) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(web3.eth.sendTransaction({to:EtherDrop.address, from:address}));
-				}
-			};
-			web3.eth.sendTransaction({from: address, to:EtherDrop.address, value: EtherDrop.price}, function(e) {
-				console.log(e);
-			});
+			web3.eth.getAccounts((e, r)=> e ? reject(e) : resolve(r));
 		});
 	},
 	
 	stat: async function() {
 		return new Promise((resolve, reject) => {
-			EtherDrop.instance.stat((e, r) => {			
-				//[round, position, max, price, block]
-				EtherDrop.round = r[0];
-				EtherDrop.position = r[1];
-				EtherDrop.max = r[2];
-				EtherDrop.price = r[3];
-				EtherDrop.block = r[4];
-				resolve(r);
-			});
+			EtherDrop.instance.stat((e, r) =>  e ? reject(e) : resolve(r));
 		});
 	},
 	
 	userRound: async (user) => {
 		return new Promise((resolve, reject) => { 
-			EtherDrop.instance.userRound(user, (e,d)=> {
-				if(e) console.log(e);
-				EtherDrop.userRound = d[1];
-				resolve(d);
-			})
+			EtherDrop.instance.userRound(user, (e, r)=> e ? reject(e) : resolve(r))
+		});
+	},
+	
+	transact: async (address, amount) => {
+		return new Promise((resolve, reject) => {
+			web3.eth.sendTransaction({from: address, to: EtherDrop.address, value: amount}, (e, r) => e ? reject(e)	: resolve(r));
 		});
 	},
 	
 	watchSubscriptions: (round, fromBlock, callback) => {
 		console.log(`watching round ${round} from block ${fromBlock}`);
 		EtherDrop.instance
-			.NewSubscriber({round: 1}, { fromBlock:  0, toBlock: 'latest'})
+			.NewSubscriber({round: round}, { fromBlock:  fromBlock, toBlock: 'latest'})
 			.watch((error, event) => {
 				if (error) {
 					console.log(`error while searching round subscriptions: ${error}`);
@@ -105,21 +83,15 @@ const EtherDrop = {
 		});
 	},
 	
-	watchRounds: (callback, fromBlock) => {
+	watchRounds: (callback) => {
 		console.log('watching round results');
 		EtherDrop.instance
-			.NewDropOut({ }, { fromBlock: fromBlock || 0, toBlock: 'latest'})
+			.NewDropOut({ }, { fromBlock: 0, toBlock: 'latest'})
 			.watch((error, event) =>  {
 				if (error) {
 					console.log(`error while searching subscriptions: ${error}`);
 				} else {
 					// args [address indexed addr, indexed round, place, price]
-					// check new round
-					if(event['args']['round'] > EtherDrop.round) {
-						if(EtherDrop.onNewRound) {
-							EtherDrop.onNewRound(event['args']['round']);
-						}
-					}
 					callback(event['transactionHash'], event['args'])
 				}
 			});
@@ -136,8 +108,6 @@ const EtherDrop = {
 					// args: [address indexed addr, indexed round, place]
 					let args = event['args'];
 					let round = args['round'];
-					let res = round.toNumber() == EtherDrop.round.toNumber() ? 'pending' : '-';
-					event['args']['status'] = res;
 					callback(event['transactionHash'], event['args']);
 				}
 			});

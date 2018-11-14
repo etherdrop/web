@@ -133,17 +133,17 @@
 			<div class="col-12 col-lg">
 				<div class="card shadow">
 				  <div class="card-header text-primary">  
-					<strong>Price Pool <span class="round-jackpot">?</span> ETH</strong> <i class="fas fa-parachute-box float-right"></i>			 
+					<strong>Price Pool <span class="round-jackpot">?</span></strong> <i class="fas fa-parachute-box float-right"></i>			 
 				 </div>
 				  <div class="card-body text-center">				  
 					<div class="row">
 						<div class="col-12">
-							<a id="btn-transact" href="javascript:EtherDrop.transact()" class="btn btn-sm btn-success">
+							<a id="btn-transact" href="javascript:void(0)" class="btn btn-sm btn-success">
 								<b>Participate <span id="round-price">?</span> ETH</b>
 							</a>
 						</div>
 						<div class="col-12">
-							<small>Or Use Payment Barcode</small>
+							<small><b>Or Use Payment Barcode</b></small>
 						</div>
 					</div>
 					
@@ -156,43 +156,39 @@
 				  </div>
 				</div>
 			</div>
-
 			<div class="col-12 col-lg">
 				<div class="card shadow">
 				  <div class="card-header text-primary">
-					<strong>Activity</strong><i class="fas fa-fw fa-star float-right"></i>
+					<strong>Recent Activity</strong><i class="fas fa-fw fa-star float-right"></i>
 				  </div>
 				  <div class="card-body">
 					
 					<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 					  <li class="nav-item">
-						<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i class="fas fa-fw fa-spin fa-spinner"></i> Txns</a>
+						<a class="nav-link active" id="pills-round-tab" data-toggle="pill" href="#pills-round" role="tab" aria-controls="pills-round" aria-selected="true"><i class="fas fa-fw fa-spin fa-spinner"></i> Txns</a>
 					  </li>
 					  <li class="nav-item">
-						<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><i class="fas fa-history"></i> Wins</a>
+						<a class="nav-link" id="pills-history-tab" data-toggle="pill" href="#pills-history" role="tab" aria-controls="pills-history" aria-selected="false"><i class="fas fa-history"></i> Wins</a>
 					  </li>
 					  <li class="nav-item">
-						<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="fas fa-fingerprint"></i> Me</a>
+						<a class="nav-link" id="pills-user-tab" data-toggle="pill" href="#pills-user" role="tab" aria-controls="pills-user" aria-selected="false"><i class="fas fa-fingerprint"></i> Me</a>
 					  </li>
 					</ul>
 					<div class="tab-content" id="pills-tabContent">
-					  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+					  <div class="tab-pane fade show active" id="pills-round" role="tabpanel" aria-labelledby="pills-round-tab">
 						<div id="list-round-subs" class="list-group col"></div>
 					  </div>
-					  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+					  <div class="tab-pane fade" id="pills-history" role="tabpanel" aria-labelledby="pills-history-tab">
 						<div id="list-round-results" class="list-group col"></div>
 					  </div>
-					  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+					  <div class="tab-pane fade" id="pills-user" role="tabpanel" aria-labelledby="pills-user-tab">
 						<div id="list-round-mine" class="list-group col"></div>
 					  </div>
-					</div>
-					
-				</div>
-			</div>
+					</div>	
+				  </div>
+			    </div>
+		   </div>
 		</div>
-	
-		</div>
-		
 	</div>
 
 	<div class="modal fade text-info" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalTitle" aria-hidden="true">
@@ -252,7 +248,7 @@
                             <br> 
 							<br>
                             <i class="fas fa-fw fa-scroll"></i> You can check etherdrop smart contract on the blockchain by following this link
-                            <a href="https://etherscan.io/address/0x81b1ff50d5bca9150700e7265f7216e65c8936e6#code"><b>Click here</b>.</a>
+                            <a class= "smart-contract" href="javascript:void(0)"><b>Click here</b>.</a>
 						</span>
 				  </div>
 				</div>
@@ -262,7 +258,7 @@
 		  <div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-primary">
-					<a  class="text-white" target="_blank" href="https://etherscan.io/address/0x81b1ff50d5bca9150700e7265f7216e65c8936e6#code"><b>Smart Contract <i class="fab fa-fw fa-ethereum"></i></b></a>
+					<a  class="text-white smart-contract" target="_blank" href="javascript:void(0)"><b>Smart Contract <i class="fab fa-fw fa-ethereum"></i></b></a>
 				</button>
 		  </div>
 		</div>
@@ -309,20 +305,20 @@
 			<h6 class="modal-title text-primary" id="modalShareTitle"><i class="fas fa-fw fa-share"></i> <b><i>Loved It? Share It!</i></b> </h6>
 		  </div>
 		  <div class="modal-body text-center">
-				<a href="whatsapp://send?text=Check Out http://etherdrop.app and get your ETH drop!"
+				<a href="whatsapp://send?text=Check Out https://www.etherdrop.app participate in the Ethereum Smart Contract Lottery!"
 				   data-action="share/whatsapp/share" class="btn">
 					<i class="fab fa-whatsapp"></i>
 				</a>
-				<a href="http://www.facebook.com/sharer/sharer.php?u=https://etherdrop.app"
+				<a href="http://www.facebook.com/sharer/sharer.php?u=https://www.etherdrop.app"
 				   target="_blank" class="btn">
 					<i class="fab fa-facebook"></i>
 				</a>
-				<a href="http://twitter.com/share?url=https://etherdrop.app&text=Get Your ETH Drop!&via=EtherDrop"
+				<a href="http://twitter.com/share?url=https://www.etherdrop.app&text=Get Your Ethereum, Participate in EtherDrop Smart Contract Lottery!&via=EtherDrop"
 				   target="_blank"
 				   class="btn">
 					<i class="fab fa-twitter"></i>
 				</a>
-				<a href="mailto:?subject=Support&body=support@etherdrop.app" target="_blank" class="btn email">
+				<a href="mailto:?subject=Support&body=Get Your Ethereum, Participate in EtherDrop Smart Contract Lottery! https://www.etherdrop.app" target="_blank" class="btn email">
 					<i class="fas fa-envelope"></i>
 				</a>	 
 			</div>
@@ -338,11 +334,11 @@
 	</script>
 
 	
-	<footer class="footer bg-white sticky shadow" style="height:38px">
+	<footer class="footer bg-white shadow" style="height:38px">
 		<div> 
-			<a style="vertical-align: middle" class="btn text-info float-left"
+			<a style="vertical-align: middle" class="btn text-info float-left smart-contract"
 			   target="_blank"
-			   href="https://etherscan.io/address/0x81b1ff50d5bca9150700e7265f7216e65c8936e6#code">
+			   href="javascript:void(0)">
 				<i class="fas fa-fw fa-tint"></i>
 				<i class="fab fa-fw fa-ethereum"></i>
 				<i class="fas fa-fw fa-dice"></i>

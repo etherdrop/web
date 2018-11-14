@@ -20,14 +20,27 @@ const lpad = function(s, size) {
 const presenter = {
 
     toast: (msg, timeout) => {
-        let toast = $$('snackbar');
-        toast.className = "show";
-        toast.innerHTML = msg;
-        presenter.toastIndex = (presenter.toastIndex || 0) + 1;
+        
+		let tst = $$('snackbar');
+        
+		tst.className = "show";
+        tst.innerHTML = msg;
+        
+		if(presenter.toastIndex) {
+			presenter.toastIndex++;
+		} else {
+			presenter.toastIndex = 1;
+		}
+		
+		if(!timeout) {
+			timeout = 2500;
+		}
+		
         setTimeout(() => {
-            if (--presenter.toastIndex === 0)
-                toast.className = toast.className.replace("show", "");
-        }, timeout || 2500);
+            if (--presenter.toastIndex === 0)  {
+				tst.className = tst.className.replace("show", "");
+			}
+        }, timeout);
     },
 	
 	coinSound: () => {
@@ -88,6 +101,14 @@ const presenter = {
 			let link = `<a target="_blank" href=https://ropsten.etherscan.io/address/${address}><b>${addr}</b></a>`;
 			$('#wallet-address').html(link);	
 		}
+		
+		// smart contract address
+		$('.smart-contract').attr('href', `https://etherscan.io/address/${EtherDrop.address}#code`);
+		
+		// qr-code
+		new QRCode("qrcode", {width: 128, height: 128}).makeCode(EtherDrop.address);
+		$('#contract-address').val(EtherDrop.address);
+		setTimeout(()=> { $("#qrcode > img").click(presenter.copyBarcode) }, 1000 );
 	},
 	
 	copyBarcode: () => {
@@ -101,21 +122,33 @@ const presenter = {
 	showActiveSubscription : () => {
 		$("#btn-transact")
 			.addClass("text-white bg-warning")
-			.html('<b>Already In Current Round</b> <i class="fas fa-spin fa-asterisk"></i>')
+			.html('<b>Subscribed In Current Round</b> <i class="fas fa-spin fa-asterisk"></i>')
 			.click((e)=> {
 				e.preventDefault();
 				presenter.toast("Please Wait Until Next Round");
 		});
 	},
 	
+	bindSubscription: (callback) => {
+		$("#btn-transact").click(()=> { 
+			callback();
+		});
+	},
 	
+	showWaitSubscription: ()=> {
+		$("#btn-transact")
+		.addClass("text-white bg-info")
+		.html('<b>Transaction Pending</b> <i class="fas fa-spin fa-asterisk"></i>')
+		.off('click');
+	},
+		
 	showStat: (stat) => {
-		//[round, position, max, price, block]
+		//[round, position, max, price, block, lock]
 		EtherDrop.block = stat[4];
 		$('#round-progress').html(`${stat[1]} / ${stat[2]}`);
-		$('#round-number').html(`<b>${stat[0]-0+1}</b>`);
+		$('#round-number').html(`<b>${stat[0]}</b>`);
 		$('#round-profit').html(`<b>x${stat[2]*90/100}</b>`);
-		$('.round-jackpot').html(`<b>${stat[2]*stat[3]*90/10**20}</b>`);
+		$('.round-jackpot').html(`<b>${(stat[2]*stat[3]*90/10**20).toFixed(1)} ETH</b>`);
 		$('#round-price').html(`${stat[3]/10**18}`);
 		let progress = 150 * (stat[2] - stat[1]) / stat[2];
 		$.keyframe.define([{
@@ -123,16 +156,15 @@ const presenter = {
             '0%': {transform: 'translate(0, 150px)'},
             '100%': {transform: `translate(0, ${progress > 140 ? 140 : progress}px)`}
         }]);
-		new QRCode("qrcode", {width: 128, height: 128}).makeCode(EtherDrop.address);
-		$('#contract-address').val(EtherDrop.address);
-		setTimeout(()=> { $("#qrcode > img").click(presenter.copyBarcode) }, 1000 );
 	},
 	
 	showRoundSubscription: (tx, r) => {
 		
 		// r: [address indexed addr, indexed round, place]
 		
-		let place = r['place'];
+		let round = r['round'].toNumber();
+		
+		let place = r['place'].toNumber();
 		
 		let url = `href=https://ropsten.etherscan.io/tx/${tx}`;
 		let subTx = tx.substring(0, 6) + "..." + tx.substring(60);
@@ -140,7 +172,7 @@ const presenter = {
 		
 		let item = `<div class="list-group-item list-group-item-action">
 						<small><b>Ticket #${lpad(r['place'], 2)}</b></small>
-						<i class="float-right">${txLink}</i>
+						<i class="float-right"><b>${txLink}</b></i>
 					</div>`;
 
 		$('#list-round-subs').prepend(item);
@@ -150,46 +182,44 @@ const presenter = {
 		//r [address indexed addr, indexed round, place, price]
 		let winner = r['addr'];
 		let round = r['round'];
-		let place = r['place'];
+		let place = r['place'].toNumber();
 		let reward = r['price'] / 10**18;
 
 		let url = `href=https://ropsten.etherscan.io/tx/${tx}`;
-		let txLink = `<a style="font-family:monospace" target="_blank" ${url}>Won ${r['price']} ETH</a>`;
+		let txLink = `<b><a style="font-family:monospace" target="_blank" ${url}>Won ${(r['price']/1e18).toFixed(1)} ETH</a></b>`;
 
 		let tkUrl = `href=https://ropsten.etherscan.io/address/${winner}`;
 
-		let tkLink = `<a style="font-family:monospace" target="_blank" ${tkUrl}>Ticket #${lpad(place, 2)}</a>`;
+		let tkLink = `<b><a style="font-family:monospace" target="_blank" ${tkUrl}>Ticket #${lpad(r['place'], 2)}</a></b>`;
 
 		let item = `<div class="list-group-item list-group-item-action">
-						<small><b>Round ${round} - ${tkLink}</b></small>
+						<small><b>Round ${round}</b></small> / <b>${tkLink}</b>
 						<i class="float-right">${txLink}</i>
 					</div>`;
 
 		$('#list-round-results').prepend(item);
 	},
 	
-	showUserSubscription: (tx, r) => {
+	showUserSubscription: (tx, r, currentRound) => {
 
 		//r [address indexed addr, indexed round, place, price]
 		let winner = r['addr'];
-		let round = r['round'];
-		let place = r['place'];
-		let res = r['status'];
+		let round = r['round'].toNumber();
+		let place = r['place'].toNumber();
+		let price = r['price'] / 10**18;
 		
-		if(res) {
-			
+		let res = currentRound == round ? 'pending' : isNaN(price) ? '-' : `Won ${r['price']/10**18} ETH`;
+		
+		if(isNaN(price)) {
 			let url = `href=https://ropsten.etherscan.io/tx/${tx}`;
 			let txLink = `<b><a style="font-family:monospace" target="_blank" ${url}>Ticket #${lpad(r['place'], 2)}</a></b>`;
-				
 			let item = `<div class="list-group-item list-group-item-action">
-							<small><b>Round ${round}</b></small> ${txLink} 
+							<small><b>Round ${round}</b></small> / ${txLink} 
 							<small class="float-right"><i><span id="${tx}">${res}</span></i></small>
 						</div>`;
-
 			$('#list-round-mine').prepend(item);
-			
 		} else {
-			$(`#${tx}`).text(`Won ${r['price']/10**18} ETH `);
+			$(`#${tx}`).text(`${res}`);
 		}
 	}
 };
