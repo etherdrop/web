@@ -98,7 +98,7 @@ const presenter = {
 		} else {
 			let addr = address + '';
 			addr = addr.substring(0,6) + " . . . " + addr.substring(36);
-			let link = `<a target="_blank" href=https://ropsten.etherscan.io/address/${address}><b>${addr}</b></a>`;
+			let link = `<a target="_blank" href=https://etherscan.io/address/${address}><b>${addr}</b></a>`;
 			$('#wallet-address').html(link);	
 		}
 		
@@ -166,7 +166,7 @@ const presenter = {
 		
 		let place = r['place'].toNumber();
 		
-		let url = `href=https://ropsten.etherscan.io/tx/${tx}`;
+		let url = `href=https://etherscan.io/tx/${tx}`;
 		let subTx = tx.substring(0, 6) + "..." + tx.substring(60);
 		let txLink = `<a style="font-family:monospace" target="_blank" ${url}>${subTx}</a>`;
 		
@@ -185,10 +185,10 @@ const presenter = {
 		let place = r['place'].toNumber();
 		let reward = r['price'] / 10**18;
 
-		let url = `href=https://ropsten.etherscan.io/tx/${tx}`;
+		let url = `href=https://etherscan.io/tx/${tx}`;
 		let txLink = `<b><a style="font-family:monospace" target="_blank" ${url}>Won ${(r['price']/1e18).toFixed(1)} ETH</a></b>`;
 
-		let tkUrl = `href=https://ropsten.etherscan.io/address/${winner}`;
+		let tkUrl = `href=https://etherscan.io/address/${winner}`;
 
 		let tkLink = `<b><a style="font-family:monospace" target="_blank" ${tkUrl}>Ticket #${lpad(r['place'], 2)}</a></b>`;
 
@@ -211,7 +211,7 @@ const presenter = {
 		let res = currentRound == round ? 'pending' : isNaN(price) ? '-' : `Won ${r['price']/10**18} ETH`;
 		
 		if(isNaN(price)) {
-			let url = `href=https://ropsten.etherscan.io/tx/${tx}`;
+			let url = `href=https://etherscan.io/tx/${tx}`;
 			let txLink = `<b><a style="font-family:monospace" target="_blank" ${url}>Ticket #${lpad(r['place'], 2)}</a></b>`;
 			let item = `<div class="list-group-item list-group-item-action">
 							<small><b>Round ${round}</b></small> / ${txLink} 
